@@ -52,10 +52,6 @@ public class RestAssured {
                 .when()
                 .post("https://sc-express-api-middlemile.noonstg.team/staging/test-data/trip");
 
-        System.out.println("Raw Response Body: " + response.getBody().asString());
-        System.out.println("Response Status Code: " + response.getStatusCode());
-        System.out.println("Response Content-Type: " + response.getContentType());
-
         JsonPath jsonPath = response.jsonPath();
         String tripCode = jsonPath.getString("code");
         System.out.println("Extracted Trip Code: " + tripCode);
