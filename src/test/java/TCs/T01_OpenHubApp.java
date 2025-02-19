@@ -22,6 +22,7 @@ public class T01_OpenHubApp {
             Hooks hooks = new Hooks();
             hooks.SetUp();
         }
+
         //click on scan first QR code
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
         WebElement ScanFirstQR = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc=\"\uDB81\uDC32, SCAN FIRST QR\"]\n"))); //id didn't work
@@ -59,7 +60,6 @@ public class T01_OpenHubApp {
 
         // wait until the select hub page loads
          wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc=\"\uDB83\uDF81, TEST-Z1, hub\"]")));
-
     }
 
 }

@@ -22,8 +22,10 @@ public class Hooks {
         caps.setCapability("platformName","Android");
         caps.setCapability("appium:platformVersion","10");
         caps.setCapability("appium:deviceName","EDA51K");
+       /* caps.setCapability("appium:ignoreHiddenApiPolicyError", true);
+        caps.setCapability("appium:noReset", true);  // i think tis helps bypass first qr code scan
+*/
         caps.setCapability("appium:app","C:\\Users\\snagy\\Downloads\\HubApp.apk");
-        //  caps.setCapability("browserName","Chrome");
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), caps);
 
 
