@@ -21,6 +21,18 @@
             <artifactId>selenium-java</artifactId>
             <version>4.25.0</version>
         </dependency>
+        <!-- Cucumber Java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>7.18.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>

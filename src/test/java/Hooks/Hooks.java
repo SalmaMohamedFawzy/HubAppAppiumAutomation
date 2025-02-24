@@ -28,7 +28,6 @@ public class Hooks {
         caps.setCapability("appium:app","C:\\Users\\snagy\\Downloads\\HubApp.apk");
         driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"), caps);
 
-
     }
     @AfterClass
     public void tearDown(){
