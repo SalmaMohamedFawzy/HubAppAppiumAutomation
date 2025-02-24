@@ -14,22 +14,19 @@ import java.time.Duration;
 import static Hooks.Hooks.driver;
 import static io.restassured.RestAssured.given;
 
-public class T06_LoadPgroupsRestAssured {
+public class T12_UnloadPgroupRestAssured {
     @Test
-    public void T1_LoadPgroups() {
+    public void T1_UnLoadPgroups() {
         String cookieName = "Cookie";
-        String url = "https://express-api.noonstg.team/hub/actions";
-        System.out.println(T05_ExtractEntityKeyRestAssured.EntityKey );
-        System.out.println(T04_CreatePgroupsRestAssured.pgroupCode );
-        String actionPayload = "{\n" +
-                "  \"actions\": {\n" +
-                "    \"" + T05_ExtractEntityKeyRestAssured.EntityKey + "\": {\n" +
-                "      \"action_code\": \"load\",\n" +
-                "      \"awb_nr\": \"" + T04_CreatePgroupsRestAssured.pgroupCode + "\"\n" +
-                "    }\n" +
-                "  }\n" +
-                "}";
-
+        String url = "https://express-api.noonstg.team/hub/scan/action";
+       // System.out.println(T05_ExtractEntityKeyRestAssured.EntityKey );
+       // System.out.println(T04_CreatePgroupsRestAssured.pgroupCode );
+        String requestBody = "{"
+                + "\"entity_key\": \"" + T05_ExtractEntityKeyRestAssured.EntityKey + "\","
+                + "\"action_code\": \"unload\","
+                + "\"scans\": [\"" + T04_CreatePgroupsRestAssured.pgroupCode + "\"],"
+                + "\"scans_media\": {}"
+                + "}";
         Response response = given()
                 .header("accept", "application/json")
                 .header("X-App-Build", BuildNumberManager.APP_BUILD_NUMBER)
@@ -37,21 +34,21 @@ public class T06_LoadPgroupsRestAssured {
                 .header("X-Facility", "TEST-A1")
                 .header("Content-Type", "application/json")
                 .header(cookieName, ApiCookieManager.COOKIE_VALUE)
-                .body(actionPayload)
+                .body(requestBody)
                 .when()
                 .post(url);
         System.out.println("Response Status Code: " + response.getStatusCode());
         System.out.println("Response Body: " + response.getBody().asString());
     }
     @Test
-    public void T2_ensurePgroupisLoaded() {
+    public void T2_ensureTripIsUnLoaded() {
         //ensure that page is fully loaded
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement entityDetails = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc='Entity Details']")));
         //go back &login again to refresh
         WebElement backButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//com.horcrux.svg.RectView")));
         backButton.click();
-        WebElement ThethreePointss = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup")));
+        WebElement ThethreePointss = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//com.horcrux.svg.RectView")));
         ThethreePointss.click();
         WebElement EnterTripCodee = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"Enter Middle Mile Trip Code\"]")));
         EnterTripCodee.click();

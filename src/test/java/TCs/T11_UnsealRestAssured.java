@@ -2,25 +2,64 @@ package TCs;
 
 import Configurations.ApiCookieManager;
 import Configurations.BuildNumberManager;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.time.Duration;
 
 import static Hooks.Hooks.driver;
+import static TCs.T07_SignedUrlsCreationRestAssured.SealedImgsURL;
 import static io.restassured.RestAssured.given;
+import static TCs.T08_AddPicsToURL.uploadFile;
+public class T11_UnsealRestAssured {
+    public static String UnSealedImgsURL;
 
-public class T10_SealRestAssured {
+    //same flow as seal -- using same sealnr
+
     @Test
-    public void T1_SealApi() throws InterruptedException {
+    public void T1_UnsealSignedUrlsCreation(){
+        String cookieName = "Cookie";
+        String Payload = "{ \"sign\": { \"" + T05_ExtractEntityKeyRestAssured.EntityKey + "\": { \"trip-unsealed.jpg\": 1 } } }";
+
+        Response response = given()
+                .header("accept", "application/json")
+                .header("X-App-Build", "238")
+                .header("X-Facility-Type", "hub")
+                .header("X-Facility", "TEST-A1")
+                .header("Content-Type", "application/json")
+                .header(cookieName, ApiCookieManager.COOKIE_VALUE)
+                .body(Payload)
+                .when()
+                .post("https://express-api.noonstg.team/hub/signed-urls");
+        String jsonResponse = response.getBody().asString();
+        System.out.println(jsonResponse);
+        UnSealedImgsURL = JsonPath.read(jsonResponse,  "$.signed['" + T05_ExtractEntityKeyRestAssured.EntityKey + "']['trip-unsealed.jpg'][0]");
+        System.out.println("url is : " +UnSealedImgsURL);
+    }
+    @Test
+    public void T2_testUploadFile() {
+        // Load the file from resources folder
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("black_img.jpg").getFile());
+
+        String contentType = "image/jpeg";
+        boolean result = uploadFile(UnSealedImgsURL, file, contentType);
+
+        Assert.assertTrue(result, "File upload should be successful");
+    }
+    @Test
+    public void T3_UnSealApi() throws InterruptedException {
 
         System.out.println("Entity Key: " + T05_ExtractEntityKeyRestAssured.EntityKey);
         System.out.println("Seal Number: " + T09_ExtractSealNrRestAssured.SealNr);
-        System.out.println("Sealed Image URL: " + T07_SignedUrlsCreationRestAssured.SealedImgsURL);
+        System.out.println("Sealed Image URL: " + UnSealedImgsURL);
         Thread.sleep(500);
 
         String baseUrl = "https://express-api.noonstg.team";
@@ -28,12 +67,12 @@ public class T10_SealRestAssured {
         String requestBody = "{"
                 + "\"actions\": {"
                 + "  \"" + T05_ExtractEntityKeyRestAssured.EntityKey + "\": {"
-                + "    \"action_code\": \"seal\","
+                + "    \"action_code\": \"unseal\","
                 + "    \"seal_nr\": \"" + T09_ExtractSealNrRestAssured.SealNr + "\","
                 + "    \"entity_type\": \"seal_nr\","
                 + "    \"media_urls\": {"
-                + "      \"trip-sealed.jpg\": ["
-                + "        \"" + T07_SignedUrlsCreationRestAssured.SealedImgsURL + "\""
+                + "      \"trip-unsealed.jpg\": ["
+                + "        \"" + UnSealedImgsURL + "\""
                 + "      ]"
                 + "    }"
                 + "  }"
@@ -57,7 +96,7 @@ public class T10_SealRestAssured {
         System.out.println("Response Body: " + response.getBody().asString());
     }
     @Test
-    public void T2_ensureTripIsSealed() {
+    public void T4_ensureTripIsUnSealed() {
         //ensure that page is fully loaded
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement entityDetails = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc='Entity Details']")));

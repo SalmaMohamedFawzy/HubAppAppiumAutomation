@@ -1,6 +1,6 @@
 package TCs;
 
-import Hooks.ApiCookieManager;
+import Configurations.ApiCookieManager;
 import org.testng.annotations.Test;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;

@@ -1,7 +1,8 @@
 package TCs;
 import static io.restassured.RestAssured.given;
 
-import Hooks.ApiCookieManager;
+import Configurations.ApiCookieManager;
+import Configurations.BuildNumberManager;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
@@ -17,7 +18,7 @@ public class T05_ExtractEntityKeyRestAssured {
         //String scanPayload = "{ \"scan\": \"MMTR::TEST-A1-R-130-T-144\" }";
         Response response = given()
                 .header("accept", "application/json")
-                .header("X-App-Build", "238")
+                .header("X-App-Build", BuildNumberManager.APP_BUILD_NUMBER)
                 .header("X-Facility-Type", "hub")
                 .header("X-Facility", "TEST-A1")
                 .header("Content-Type", "application/json")

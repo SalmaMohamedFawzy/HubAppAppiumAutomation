@@ -14,10 +14,10 @@ import java.time.Duration;
 
 import static Hooks.Hooks.driver;
 import Hooks.Hooks;
-public class T01_OpenHubApp {
+public class T01_LoginIntoHubApp {
 
     @Test
-    public void OpenHubApp() throws InterruptedException, MalformedURLException {
+    public void LoginIntoHubApp() throws InterruptedException, MalformedURLException {
         if (driver == null) {
             Hooks hooks = new Hooks();
             hooks.SetUp();
@@ -47,7 +47,7 @@ public class T01_OpenHubApp {
         int endY = (int) (screenHeight * 0.2);    // End at 20% of the screen
 
         TouchAction action = new TouchAction(driver);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             action.press(PointOption.point(startX, startY))
                     .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
                     .moveTo(PointOption.point(startX, endY))

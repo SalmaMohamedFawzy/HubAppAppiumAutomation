@@ -13,14 +13,18 @@ import static TCs.T07_SignedUrlsCreationRestAssured.SealedImgsURL;
 public class T08_AddPicsToURL {
     @Test
     public void testUploadFile() {
+        // Load the file from resources folder
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("black_img.jpg").getFile());
 
-        File file = new File("C:\\Users\\snagy\\Downloads\\black_img.jpg");
         String contentType = "image/jpeg";
         boolean result = uploadFile(SealedImgsURL, file, contentType);
+
         Assert.assertTrue(result, "File upload should be successful");
     }
 
-    public boolean uploadFile(String signedUrl, File fileToUpload, String contentType) {
+
+    public static boolean uploadFile(String signedUrl, File fileToUpload, String contentType) {
         HttpURLConnection connection = null;
         FileInputStream fileInputStream = null;
         OutputStream outputStream = null;

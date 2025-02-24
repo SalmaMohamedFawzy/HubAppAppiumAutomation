@@ -2,7 +2,7 @@
 <suite name="HubAutomationSuite" parallel="false">
     <test name="Hub Test Execution">
         <classes>
-            <class name="TCs.T01_OpenHubApp"/>
+            <class name="TCs.T01_LoginIntoHubApp"/>
             <class name="TCs.T02_CreateTripRestAssured"/>
             <class name="TCs.T03_LoginTheHubANDTakeArrivalPics"/>
             <class name="TCs.T04_CreatePgroupsRestAssured"/>
@@ -12,6 +12,8 @@
             <class name="TCs.T08_AddPicsToURL"/>
             <class name="TCs.T09_ExtractSealNrRestAssured"/>
             <class name="TCs.T10_SealRestAssured"/>
+            <class name="TCs.T11_UnsealRestAssured"/>
+            <class name="TCs.T12_UnloadPgroupRestAssured"/>
         </classes>
     </test>
 </suite>
