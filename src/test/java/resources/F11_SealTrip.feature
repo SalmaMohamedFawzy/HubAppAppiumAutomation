@@ -1,7 +1,7 @@
 @test
 Feature: Seal Trip
 
-  Scenario: Seal a trip using the API verify the sealed status via the UI
+  Scenario: Seal a trip using the API
     Given the necessary trip sealing details are available
     When I send a seal action request to the hub
     Then I should receive a successful seal action response

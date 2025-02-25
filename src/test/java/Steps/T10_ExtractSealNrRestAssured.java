@@ -13,7 +13,7 @@ import com.jayway.jsonpath.JsonPath;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class T09_ExtractSealNrRestAssured {
+public class T10_ExtractSealNrRestAssured {
     private String batchNumber;
     public static String SealNr;
 

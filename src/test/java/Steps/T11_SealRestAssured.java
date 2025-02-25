@@ -19,14 +19,14 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-public class T10_SealRestAssured {
+public class T11_SealRestAssured {
     private Response sealResponse;
 
     @Given("the necessary trip sealing details are available")
     public void the_necessary_trip_sealing_details_are_available() {
         assertNotNull("Entity Key should not be null", Steps.T05_ExtractEntityKeyRestAssured.entityKey);
-        assertNotNull("Seal Number should not be null",  Steps.T09_ExtractSealNrRestAssured.SealNr);
-        assertNotNull("Sealed Image URL should not be null", Steps.T07_SignedUrlsCreationRestAssured.SealedImgsURL);
+        assertNotNull("Seal Number should not be null",  Steps.T10_ExtractSealNrRestAssured.SealNr);
+        assertNotNull("Sealed Image URL should not be null", Steps.T08_SignedUrlsCreationRestAssured.SealedImgsURL);
     }
 
     @When("I send a seal action request to the hub")
@@ -37,16 +37,18 @@ public class T10_SealRestAssured {
                 + "\"actions\": {"
                 + "  \"" + Steps.T05_ExtractEntityKeyRestAssured.entityKey + "\": {"
                 + "    \"action_code\": \"seal\","
-                + "    \"seal_nr\": \"" + Steps.T09_ExtractSealNrRestAssured.SealNr + "\","
+                + "    \"seal_nr\": \"" + T10_ExtractSealNrRestAssured.SealNr + "\","
                 + "    \"entity_type\": \"seal_nr\","
                 + "    \"media_urls\": {"
                 + "      \"trip-sealed.jpg\": ["
-                + "        \"" + Steps.T07_SignedUrlsCreationRestAssured.SealedImgsURL + "\""
+                + "        \"" + T08_SignedUrlsCreationRestAssured.SealedImgsURL + "\""
                 + "      ]"
                 + "    }"
                 + "  }"
                 + "}"
                 + "}";
+
+        System.out.println("Seal Request Body: " + requestBody);
 
         sealResponse = given()
                 .header("accept", "application/json")

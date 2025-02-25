@@ -9,9 +9,10 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 import org.testng.Assert;
 
-public class T07_SignedUrlsCreationRestAssured {
+public class T08_SignedUrlsCreationRestAssured {
     private Response response;
     public static String SealedImgsURL;
+    public static String UnSealedImgsURL;
 
     @Given("a valid entity key and a valid cookie")
     public void a_valid_entity_key_and_a_valid_cookie() {
@@ -36,14 +37,26 @@ public class T07_SignedUrlsCreationRestAssured {
                 .when()
                 .post("https://express-api.noonstg.team/hub/signed-urls");
     }
-    @Then("I should receive a valid signed URL in the response")
-    public void i_should_receive_a_valid_signed_url_in_the_response() {
+    @Then("I should receive a valid signed URL for {string} in the response")
+    public void i_should_receive_a_valid_signed_url_for_in_the_response(String imageName) {
         String jsonResponse = response.getBody().asString();
         int statusCode = response.getStatusCode();
-        System.out.println(statusCode);
+        System.out.println("Status Code: " + statusCode);
         System.out.println("Response: " + jsonResponse);
-        SealedImgsURL = JsonPath.read(jsonResponse, "$.signed['" + T05_ExtractEntityKeyRestAssured.entityKey + "']['trip-sealed.jpg'][0]");
-        System.out.println("Signed URL: " + SealedImgsURL);
-        Assert.assertNotNull(SealedImgsURL, "The signed URL should not be null.");
+
+        // Check the image name and extract the corresponding signed URL
+        if(imageName.equals("trip-sealed.jpg")) {
+            SealedImgsURL = JsonPath.read(jsonResponse, "$.signed['" + Steps.T05_ExtractEntityKeyRestAssured.entityKey
+                    + "']['" + imageName + "'][0]");
+            System.out.println("Signed URL for sealed: " + SealedImgsURL);
+            Assert.assertNotNull(SealedImgsURL, "The signed URL for sealed should not be null.");
+        } else if(imageName.equals("trip-unsealed.jpg")) {
+            UnSealedImgsURL = JsonPath.read(jsonResponse, "$.signed['" + Steps.T05_ExtractEntityKeyRestAssured.entityKey
+                    + "']['" + imageName + "'][0]");
+            System.out.println("Signed URL for unsealed: " + UnSealedImgsURL);
+            Assert.assertNotNull(UnSealedImgsURL, "The signed URL for unsealed should not be null.");
+        } else {
+            Assert.fail("Unknown image name provided: " + imageName);
+        }
     }
 }
