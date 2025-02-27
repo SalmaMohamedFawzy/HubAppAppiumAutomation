@@ -1,6 +1,7 @@
 package Steps;
 import Configurations.ApiCookieManager;
 import Configurations.BuildNumberManager;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,6 +16,7 @@ import java.time.Duration;
 
 import static Hooks.Hooks.driver;
 import static io.restassured.RestAssured.given;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 public class T06_LoadPgroupsRestAssured {
@@ -24,14 +26,19 @@ public class T06_LoadPgroupsRestAssured {
     public void a_pgroup_exists() {
         Assert.assertNotNull(Steps.T04_CreatePgroupsRestAssured.PgroupCode, "Pgroup code is null");
     }
+    @And("Entity page is loaded")
+    public void Entitty_pge_is_loaded(){
+        String entityDetailsXpath = "//android.widget.TextView[@text='Entity Details']";
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebElement entityDetails = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(entityDetailsXpath)));
+        assertTrue("Entity Details should be visible on the screen", entityDetails.isDisplayed());
+    }
     @When("I load the Pgroup using the API")
     public void i_load_the_pgroup_using_the_api() {
         String cookieName = "Cookie";
         String url = "https://express-api.noonstg.team/hub/actions";
-        // Print values for debugging (assuming these static variables are available)
         System.out.println(Steps.T05_ExtractEntityKeyRestAssured.entityKey);
         System.out.println(Steps.T04_CreatePgroupsRestAssured.PgroupCode);
-        // Build the action payload using the entity key and pgroup code
         String actionPayload = "{\n" +
                 "  \"actions\": {\n" +
                 "    \"" + Steps.T05_ExtractEntityKeyRestAssured.entityKey + "\": {\n" +
@@ -40,7 +47,6 @@ public class T06_LoadPgroupsRestAssured {
                 "    }\n" +
                 "  }\n" +
                 "}";
-        // Send the API request using RestAssured
         response = given()
                 .header("accept", "application/json")
                 .header("X-App-Build", BuildNumberManager.APP_BUILD_NUMBER)
@@ -57,7 +63,6 @@ public class T06_LoadPgroupsRestAssured {
 
     @Then("the API response should be successful")
     public void the_api_response_should_be_successful() {
-        // Example assertion: check that the response status code is 200
         if (response.getStatusCode() != 200) {
             throw new AssertionError("Expected status code 200 but got " + response.getStatusCode());
         }
@@ -86,7 +91,7 @@ public class T06_LoadPgroupsRestAssured {
         WebElement tripCodeField = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("android.widget.EditText")));
         // Use the trip code from your other test case
-        tripCodeField.sendKeys(Steps.T02_CreateTripRestAssured.tripCode);
+        tripCodeField.sendKeys(T01_CreateTripRestAssured.tripCode);
 
         WebElement submitTripCode = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//android.widget.TextView[@text=\"SUBMIT\"]")));

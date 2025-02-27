@@ -73,4 +73,20 @@ public class T10_SealRestAssured {
         WebElement submitTripCodee = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"SUBMIT\"]")));
         submitTripCodee.click();
     }
+    @Test
+    public void T3_LogoutFromFirstHubAndLoginSecondOne() {
+        //logout then login second hub
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement backButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.FrameLayout[@resource-id='android:id/content']/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup")));
+        backButton.click();
+
+        WebElement threeDotsMenu = wait.until(ExpectedConditions.elementToBeClickable(By.className("com.horcrux.svg.RectView")));
+        threeDotsMenu.click();
+
+        WebElement logoutButton = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc='Logout']")));
+        logoutButton.click();
+
+        WebElement ScanFirstQR = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.view.ViewGroup[@content-desc=\"\uDB81\uDC32, SCAN FIRST QR\"]\n"))); //id didn't work
+        ScanFirstQR.click();
+    }
 }

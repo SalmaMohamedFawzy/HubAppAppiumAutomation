@@ -16,7 +16,7 @@ import java.time.Duration;
 import Hooks.Hooks;
 import static Hooks.Hooks.driver;
 
-public class T01_LoginIntoHubApp {
+public class T02_LoginIntoHubApp {
     @Given("the Hub App is open")
     public void openHubApp() throws MalformedURLException {
         if (driver == null) {
@@ -26,7 +26,7 @@ public class T01_LoginIntoHubApp {
     }
     /*@When("I go to the link")
     public void i_go_to_the_link() {
-        driver.get("https://misc-team.noonstg.team/ops#qr");
+        driver.get("https://misc-team.noonstg.team/ops ");
     }*/
 
     @When("I scan the first QR code")

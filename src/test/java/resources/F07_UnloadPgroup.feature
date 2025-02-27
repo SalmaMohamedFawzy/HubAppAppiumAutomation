@@ -13,6 +13,7 @@ Feature: Unload Pgroups
 
   Scenario: Load a Pgroup again via API to complete the flow
     Given a Pgroup exists
+    And Entity page is loaded
     When I load the Pgroup using the API
     Then the API response should be successful
     And I ensure that the Pgroup is loaded on the UI

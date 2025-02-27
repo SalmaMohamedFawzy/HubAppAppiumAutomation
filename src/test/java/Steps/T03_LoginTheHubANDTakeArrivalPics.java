@@ -35,7 +35,7 @@ public class T03_LoginTheHubANDTakeArrivalPics {
         enterTripCodeOption.click();
 
         WebElement tripCodeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("android.widget.EditText")));
-        tripCodeField.sendKeys(Steps.T02_CreateTripRestAssured.tripCode);
+        tripCodeField.sendKeys(T01_CreateTripRestAssured.tripCode);
 
         WebElement submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//android.widget.TextView[@text=\"SUBMIT\"]")));
         submitButton.click();

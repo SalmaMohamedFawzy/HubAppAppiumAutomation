@@ -22,7 +22,7 @@ public class T05_ExtractEntityKeyRestAssured {
 
     @When("I send a request to extract the entity key using the trip code")
     public void iSendARequestToExtractTheEntityKeyUsingTheTripCode() {
-        String scanPayload = "{ \"scan\": \"MMTR::" + T02_CreateTripRestAssured.tripCode + "\" }";
+        String scanPayload = "{ \"scan\": \"MMTR::" + T01_CreateTripRestAssured.tripCode + "\" }";
 
         response = given()
                 .header("Accept", "application/json")

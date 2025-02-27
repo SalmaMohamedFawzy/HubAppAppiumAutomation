@@ -8,7 +8,7 @@ import io.restassured.path.json.JsonPath;
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertNotNull;
 
-public class T02_CreateTripRestAssured {
+public class T01_CreateTripRestAssured {
     public static String tripCode;
     private Response response;
     private final String apiEndpoint = "https://sc-express-api-middlemile.noonstg.team/staging/test-data/trip";

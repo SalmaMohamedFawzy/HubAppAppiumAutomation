@@ -1,10 +1,12 @@
 package TCs;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
@@ -22,6 +24,11 @@ public class T01_LoginIntoHubApp {
             Hooks hooks = new Hooks();
             hooks.SetUp();
         }
+       /*WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+        ((RemoteWebDriver) driver).executeScript("mobile: deepLink", ImmutableMap.of(
+                "url", "https://misc-team.noonstg.team/ops",
+                "package", "com.android.chrome"
+        ));   */
 
         //click on scan first QR code
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
@@ -39,7 +46,7 @@ public class T01_LoginIntoHubApp {
         //WebElement loginSuccessElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout\n")));
         Thread.sleep(7000);
 
-        // scroll down 4 times
+        // scroll down 3 times
         int screenHeight = driver.manage().window().getSize().height;
         int screenWidth = driver.manage().window().getSize().width;
         int startX = screenWidth / 2;
